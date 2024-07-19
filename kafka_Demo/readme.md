@@ -87,3 +87,25 @@ curl -X POST http://localhost:8080/post -H "Content-Type: application/json" -d '
 SELECT * FROM posts;
 
 ```
+
+# Architecture
+
++----------------+    +--------------+    +--------------------+
+|  HTTP Clients  | -> |  API Server  | -> |  Kafka Producer    |
++----------------+    +--------------+    +--------------------+
+                                                        ||
+                                                        ||
+                                              +--------------------+
+                                              |   Kafka Broker     |
+                                              +--------------------+
+                                                        ||
+                                                        ||
+                                              +--------------------+
+                                              |  Kafka Consumer    |
+                                              |     (Processor)    |
+                                              +--------------------+
+                                                        ||
+                                                        ||
+                                              +--------------------+
+                                              |    PostgreSQL      |
+                                              +--------------------+
